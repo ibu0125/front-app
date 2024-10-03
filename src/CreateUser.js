@@ -10,24 +10,25 @@ const CreateUser = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const user = {
-      Name: name,
-      Email: email,
-      PasswordHash: password,
-    };
-
     try {
+      const user = {
+        Name: name,
+        Email: email,
+        PasswordHash: password,
+      };
+
       const response = await axios.post(
         "http://localhost:5264/api/Login/create",
         user
       );
+      alert(response.data.message);
       setMessage(response.data.message);
     } catch (error) {
-      console.error("Error details:", error);
       if (error.response) {
-        setMessage(error.response.data.error || "新規登録に失敗しました");
+        // サーバーからのエラーメッセージを表示
+        alert(error.response.data.message);
       } else {
-        setMessage("エラー");
+        alert("エラーが発生しました。");
       }
     }
   };
